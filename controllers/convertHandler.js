@@ -3,25 +3,26 @@ function ConvertHandler() {
 
   this.getNum = function (input) {
     let newinput = input.replace(/^([A-Za-z]*)$/, '1$1');
-    if ((newinput.match(/^([\d.]+)((\/)([\d.]+)){2,}(?=[A-Za-z]*)/)) !== null)
-      throw 'number';
-    return Number(eval(newinput.match(/^(\d+)((\.){0,1}(\d+)){0,1}((\/){0,1}(\d+)){0,1}(?=[A-Za-z]*)/)[0]).toFixed(5));
+    return newinput.match(/^([\d.]+)((\/)([\d.]+)){2,}(?=[A-Za-z]*)/) !== null ? 'invalid number' : Number(eval(newinput.match(/^(\d+)((\.){0,1}(\d+)){0,1}((\/){0,1}(\d+)){0,1}(?=[A-Za-z]*)/)[0]).toFixed(5));
   };
 
   this.getUnit = function (input) {
     let result = input.match(/(?=([\d.\/])*)([A-Za-z]+)/);
-    switch (result[0]) {
-      case 'gal':
-      case 'L':
-      case 'mi':
-      case 'km':
-      case 'lbs':
-      case 'kg':
-        return result[0];
-      default:
-        throw 'unit';
-        break;
-    }
+    if (result !== null) {
+      switch (result[0].toLowerCase()) {
+        case 'gal':
+        case 'l':
+        case 'mi':
+        case 'km':
+        case 'lbs':
+        case 'kg':
+          return result[0].toLowerCase() !== 'l' ? result[0].toLowerCase() : 'L';
+        default:
+          return 'invalid unit';
+          break;
+      }
+    } else
+      return 'invalid unit';
   };
 
   this.getReturnUnit = function (initUnit) {
