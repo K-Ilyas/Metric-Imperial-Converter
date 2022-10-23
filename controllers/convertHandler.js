@@ -3,11 +3,11 @@ function ConvertHandler() {
 
   this.getNum = function (input) {
     let newinput = input.replace(/^([A-Za-z]*)$/, '1$1');
-    return newinput.match(/^([\d.]+)((\/)([\d.]+)){2,}(?=[A-Za-z]*)/) !== null ? 'invalid number' : Number(eval(newinput.match(/^(\d+)((\.){0,1}(\d+)){0,1}((\/){0,1}(\d+)){0,1}(?=[A-Za-z]*)/)[0]).toFixed(5));
+    return newinput.match(/^([\d.]+)((\/){1}([\d.]+)){2,}(?=[A-Za-z]*)|(\/){2,}|^([A-Za-z]+)([\d.]+)([A-Za-z]+)/) !== null ? 'invalid number' : Number(eval(newinput.match(/^([\d.]+)((\.){0,1}([\d.]+)){0,1}((\/){0,1}([\d.]+)){0,1}(?=[A-Za-z]*)/)[0]).toFixed(5));
   };
 
   this.getUnit = function (input) {
-    let result = input.match(/(?=([\d.\/])*)([A-Za-z]+)/);
+    let result = input.match(/(?=([\d.\/])*)([A-Za-z]+)$/);
     if (result !== null) {
       switch (result[0].toLowerCase()) {
         case 'gal':
@@ -67,7 +67,7 @@ function ConvertHandler() {
         result = 'miles';
         break;
       case 'km':
-        result = 'Kilometres';
+        result = 'kilometers';
         break;
       case 'lbs':
         result = 'pounds';
